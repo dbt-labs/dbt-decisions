@@ -6,7 +6,7 @@ This dbt package enables using [`jev`](https://typesafe.ai/blog/introducing-syst
 
 Most of us are familiar with chat sessions with AI: you ask an unstructured question in free text, and it gives you unstructured, free text in reply -- infinite possibilities on both ends of the conversation.
 
-In contrast, a decision model responds to **constained** and **structured** questions with a **simple** and **structured** answer. Types of question-answers:
+In contrast, a decision model responds to **constrained** and **structured** questions with a **simple** and **structured** answer. Types of question-answers:
 - a probability between 0% and 100% for a yes/no question
 - one choice from a fixed, unordered list
 - one selection from a fixed, ordered scale
@@ -30,7 +30,7 @@ packages:
 
 ## Macros
 
-```jinja
+```sql
 {{ dbt_decisions.decision_probability(
     state="support_ticket",
     question="Is this customer likely to churn?"
@@ -42,12 +42,22 @@ packages:
     choices=["billing", "technical", "sales", "other"]
 ) }}                                   {# one of the choices (string) #}
 
+{{ dbt_decisions.decision_choice(
+    state="support_ticket",
+    question="What type of problem is this?",
+    choices={
+        "billing": "invoices, refunds, payment failures",
+        "technical": "errors, outages, how-to questions",
+        "other": none
+    }
+) }}                                   {# same, with a description per choice #}
+
 {{ dbt_decisions.decision_score(
     state="support_ticket",
     question="How urgent is this issue?",
-    min=1,
-    max=5
-) }}                                   {# float in [min, max] #}
+    criteria=["Not urgent: no action needed", "Low: can wait a week", "Medium: handle this week",
+              "High: needs attention today", "Critical: service is down"]
+) }}                                   {# float in [0, 4], zero-based #}
 ```
 
 ### Usage example
