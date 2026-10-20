@@ -4,9 +4,9 @@ This dbt package enables using [`jev`](https://typesafe.ai/blog/introducing-syst
 
 ## Quick intro to decision models
 
-Most of us are familiar with chat sessions with AI: you ask a question, and it gives you a bunch of free text in reply -- unstructured with infinite possibilities.
+Most of us are familiar with chat sessions with AI: you ask an unstructured question in free text, and it gives you unstructured, free text in reply -- infinite possibilities on both ends of the conversation.
 
-In contrast, a decision model responds to certain types of questions with a **simple** and **structured** answer instead of free text. Types of question-answers:
+In contrast, a decision model responds to **constained** and **structured** questions with a **simple** and **structured** answer. Types of question-answers:
 - a probability between 0% and 100% for a yes/no question
 - one choice from a fixed, unordered list
 - one selection from a fixed, ordered scale
