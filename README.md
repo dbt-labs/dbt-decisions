@@ -45,9 +45,9 @@ packages:
 {{ dbt_decisions.decision_score(
     state="support_ticket",
     question="How urgent is this issue?",
-    min=1,
-    max=5
-) }}                                   {# float in [min, max] #}
+    criteria=["Not urgent: no action needed", "Low: can wait a week", "Medium: handle this week",
+              "High: needs attention today", "Critical: service is down"]
+) }}                                   {# float in [0, 4], zero-based #}
 ```
 
 ### Usage example
