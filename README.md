@@ -42,6 +42,16 @@ packages:
     choices=["billing", "technical", "sales", "other"]
 ) }}                                   {# one of the choices (string) #}
 
+{{ dbt_decisions.decision_choice(
+    state="support_ticket",
+    question="What type of problem is this?",
+    choices={
+        "billing": "invoices, refunds, payment failures",
+        "technical": "errors, outages, how-to questions",
+        "other": none
+    }
+) }}                                   {# same, with a description per choice #}
+
 {{ dbt_decisions.decision_score(
     state="support_ticket",
     question="How urgent is this issue?",
