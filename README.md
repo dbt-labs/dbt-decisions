@@ -30,7 +30,7 @@ packages:
 
 ## Macros
 
-```jinja
+```sql
 {{ dbt_decisions.decision_probability(
     state="support_ticket",
     question="Is this customer likely to churn?"
