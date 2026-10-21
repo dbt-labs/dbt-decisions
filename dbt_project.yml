@@ -1,7 +1,0 @@
-name: dbt_decisions
-require-dbt-version: ['>=1.11.0', '<3.0.0']
-
-functions:
-  dbt_decisions:
-    snowflake:
-      +enabled: "{{ target.type == 'snowflake' }}"
