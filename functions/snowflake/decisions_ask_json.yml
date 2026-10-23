@@ -1,0 +1,11 @@
+functions:
+  - name: decisions_ask_json
+    config:
+      runtime_version: "3.11"
+      entry_point: main
+      packages: [pandas, requests]
+    arguments:
+      - {name: state, data_type: varchar}
+      - {name: questions, data_type: varchar}
+    returns:
+      data_type: varchar

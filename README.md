@@ -66,3 +66,61 @@ packages:
 select id, {{ dbt_decisions.decision_probability(state="support_ticket", question="Is this customer likely to churn?") }} as churn_probability
 from {{ ref('support_tickets') }}
 ```
+
+### Supported databases
+
+- Snowflake (dbt v1 and dbt v2; needs dbt Core 1.11+.)
+
+### Snowflake
+
+1. Add this to your `dbt_project.yml`:
+
+   ```yaml
+   dispatch:
+     - macro_namespace: dbt
+       search_order: ['dbt_decisions', 'dbt']
+   ```
+
+  Otherwise, the package's override of `snowflake__get_function_python_options` that attaches the integration and secret to the UDF will be ignored.
+
+2. Create the secret for the Jev API key:
+
+   ```sql
+   create secret <db>.<schema>.jev_api_key type = generic_string secret_string = '<your TypeSafe key>';
+   ```
+
+   The default is `<target.database>.<target.schema>.jev_api_key`. A secret elsewhere or under another name needs the following in your `dbt_project.yml`:
+
+    ```yaml
+    vars:
+      dbt_decisions_secret: <db>.<schema>.<name>
+    ```
+
+3. Create the network rule that allows egress to `api.typesafe.ai` and external access integration. Either let `setup` create them when missing:
+
+   ```bash
+   dbt run-operation dbt_decisions.setup
+   ```
+   or create them yourself.
+
+   You can reuse existing objects by setting the applicable `vars` in your `dbt_project.yml`:
+
+    ```yaml
+    vars:
+      dbt_decisions_network_rule: jev_egress
+      dbt_decisions_integration: dbt_decisions_it_jev_access
+    ```
+
+
+4. `dbt build --select "resource_type:function"` will create the `decisions_ask_json` and `decisions_ask` UDFs in your target's schema.
+
+Grants: the role that builds the function needs `READ` on the secret, `USAGE` on the secret's schema and `USAGE` on the integration; creating the integration needs `CREATE INTEGRATION` on the account. `dbt run-operation dbt_decisions.doctor` will report if there is a missing function, integration or secret.
+
+To opt out of these UDFs, set this in your `dbt_project.yml`:
+
+```yaml
+functions:
+  dbt_decisions:
+    snowflake:
+      +enabled: false
+```

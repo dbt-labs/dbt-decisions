@@ -1,0 +1,7 @@
+functions:
+  - name: decisions_ask
+    arguments:
+      - {name: state, data_type: variant}
+      - {name: questions, data_type: variant}
+    returns:
+      data_type: variant
