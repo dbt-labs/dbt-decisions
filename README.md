@@ -69,7 +69,20 @@ from {{ ref('support_tickets') }}
 
 ### Supported databases
 
-- Snowflake (dbt v1 and dbt v2; needs dbt Core 1.11+.)
+- Databricks (dbt v1)
+- Snowflake (dbt v1 and dbt v2; needs dbt Core 1.11+)
+
+### dbt v2 notes
+
+For databases not currently working with dbt v2, see below for the blocking issues:
+
+Databricks:
+  - https://github.com/dbt-labs/dbt/issues/16874
+  - https://github.com/dbt-labs/dbt/issues/16875
+
+### Databricks
+
+Uses the built-in [`ai_decide`](https://docs.databricks.com/aws/en/sql/language-manual/functions/ai_decide) function. Requirements: the AI Functions Beta enabled for the workspace, a supported region, a SQL warehouse that is **not** SQL Classic (Pro or Serverless), DBR 15.4+ (18.2+ recommended). There is nothing to install; `doctor` probes `ai_decide` and reports the likely cause if it is unavailable.
 
 ### Snowflake
 
