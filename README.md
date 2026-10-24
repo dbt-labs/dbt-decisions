@@ -69,9 +69,16 @@ from {{ ref('support_tickets') }}
 
 ### Supported databases
 
-- BigQuery (dbt v1)
-- Databricks (dbt v1)
-- Snowflake (dbt v1 and dbt v2; needs dbt Core 1.11+)
+| Database   | dbt v1 | dbt v2 |
+|------------|:------:|:------:|
+| BigQuery   |   ✅   |   ☑️   |
+| Databricks |   ✅   |   ☑️   |
+| DuckDB     |   ✅   |   ☑️   |
+| Postgres   |        |        |
+| Redshift   |        |        |
+| Snowflake  |   ✅*  |   ✅*  |
+
+\* Requires dbt 1.11+.
 
 ### Issues blocking dbt v2 support
 
