@@ -72,13 +72,15 @@ from {{ ref('support_tickets') }}
 - Databricks (dbt v1)
 - Snowflake (dbt v1 and dbt v2; needs dbt Core 1.11+)
 
-### dbt v2 notes
+### Issues blocking dbt v2 support
 
 For databases not currently working with dbt v2, see below for the blocking issues:
 
-Databricks:
+#### Databricks
   - https://github.com/dbt-labs/dbt/issues/16874
+    - Workaround: `dbt build --target databricks --exclude-resource-type seed`
   - https://github.com/dbt-labs/dbt/issues/16875
+    - Workaround: `dbt build --target databricks --exclude-resource-type function`
 
 ### Databricks
 
