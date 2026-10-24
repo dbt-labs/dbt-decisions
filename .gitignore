@@ -7,3 +7,4 @@ logs/
 .tmp/
 profiles.yml
 .user.yml
+__pycache__/
