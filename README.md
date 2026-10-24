@@ -82,12 +82,20 @@ For databases not currently working with dbt v2, see below for the blocking issu
     - Workaround: `dbt build --target bigquery --exclude-resource-type function`
 
 #### Databricks
-  - https://github.com/dbt-labs/dbt/issues/16874
-    - Workaround: `dbt build --target databricks --exclude-resource-type seed`
   - https://github.com/dbt-labs/dbt/issues/16875
     - Workaround: `dbt build --target databricks --exclude-resource-type function`
+  - https://github.com/dbt-labs/dbt/issues/16874
+    - Workaround: `dbt build --target databricks --exclude-resource-type seed`
+
+#### DuckDB
+  - https://github.com/dbt-labs/dbt/issues/16875
+    - Workaround: `dbt build --target duckdb --exclude-resource-type function`
+  - https://github.com/dbt-labs/dbt/issues/16884
+    - Workaround: Execute `INSTALL jev FROM community; LOAD jev;` model `pre-hook`s or one-time within `on-run-start`.
 
 ### BigQuery
+
+Set `TYPESAFE_API_KEY` environment variable.
 
 A remote function `decisions_ask` calls a small Cloud Run proxy (`bigquery_proxy/`) that forwards to the Jev service. You deploy the proxy and create the connection yourself; setup creates only the dataset and the function. For package users the proxy path is `dbt_packages/dbt_decisions/bigquery_proxy` (after executing `dbt deps`, of course!).
 
@@ -127,6 +135,43 @@ dbt run-operation dbt_decisions.setup --vars '{dbt_decisions_endpoint: <SERVICE_
 ### Databricks
 
 Uses the built-in [`ai_decide`](https://docs.databricks.com/aws/en/sql/language-manual/functions/ai_decide) function. Requirements: the AI Functions Beta enabled for the workspace, a supported region, a SQL warehouse that is **not** SQL Classic (Pro or Serverless), DBR 15.4+ (18.2+ recommended). There is nothing to install; `doctor` probes `ai_decide` and reports the likely cause if it is unavailable.
+
+### DuckDB
+
+Set `TYPESAFE_API_KEY` environment variable.
+
+Requires a DuckDB version for which the `jev` community extension is published. As of October 2026, that is **v1.5.5 and v1.5.6** (not 1.5.0 to 1.5.4, nor 1.5.7, 1.6.0, 1.6.1 nor 2.0.0).
+
+Check which version it runs with `dbt show --inline "SELECT version()"`; it must say `v1.5.5` or `v1.5.6`, otherwise `INSTALL jev FROM community` fails with `HTTP 404`.
+
+`profiles.yml`
+
+```yaml
+my_profile:
+  outputs:
+    dev:
+      type: duckdb
+      path: dev.duckdb
+      extensions: [{name: jev, repo: community}]
+      settings: {jev_api_url: "http://127.0.0.1:8765/local/v1/systemone"}  # only for a custom endpoint
+```
+
+For dbt v2, requires [installing `dbc`](https://docs.columnar.tech/dbc/getting_started/installation/) and a compatible DuckDB driver
+as described in the [docs](https://docs.getdbt.com/docs/local/connect-data-platform/duckdb-setup?version=2#driver-and-extensions):
+
+> dbt v2 ships with a built-in DuckDB driver. However, this bundled driver does _not_ support loading DuckDB extensions (for example, `httpfs`, `parquet`, or `spatial`).
+>
+> To use [DuckDB extensions](https://duckdb.org/docs/current/extensions/overview) with dbt v2, install the DuckDB driver with [`dbc`](https://docs.columnar.tech/dbc/#__tabbed_2_4). dbt v2 checks for a system-installed DuckDB driver first and falls back to the bundled driver if none is found.
+
+For example:
+```bash
+dbc install "duckdb=1.5.6"
+```
+
+If there is another DuckDB installed on the system (e.g. via Homebrew), it may need to be overridden similar to:
+```bash
+export DYLD_LIBRARY_PATH="$HOME/Library/Application Support/ADBC/Drivers/duckdb_macos_arm64_v1.5.6"
+```
 
 ### Snowflake
 
