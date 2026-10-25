@@ -74,7 +74,7 @@ from {{ ref('support_tickets') }}
 | BigQuery   |   ✅   |   ☑️   |
 | Databricks |   ✅   |   ☑️   |
 | DuckDB     |   ✅   |   ☑️   |
-| Postgres   |        |        |
+| Postgres   |   ✅   |        |
 | Redshift   |        |        |
 | Snowflake  |   ✅*  |   ✅*  |
 
@@ -99,6 +99,14 @@ For databases not currently working with dbt v2, see below for the blocking issu
     - Workaround: `dbt build --target duckdb --exclude-resource-type function`
   - https://github.com/dbt-labs/dbt/issues/16884
     - Workaround: Execute `INSTALL jev FROM community; LOAD jev;` model `pre-hook`s or one-time within `on-run-start`.
+
+#### Postgres
+  - https://github.com/dbt-labs/dbt/issues/13123
+    - Workaround: None
+  - https://github.com/dbt-labs/dbt/issues/16880
+    - Workaround: None
+
+## Installation / setup
 
 ### BigQuery
 
@@ -179,6 +187,12 @@ If there is another DuckDB installed on the system (e.g. via Homebrew), it may n
 ```bash
 export DYLD_LIBRARY_PATH="$HOME/Library/Application Support/ADBC/Drivers/duckdb_macos_arm64_v1.5.6"
 ```
+
+### Postgres
+
+`pgjev` needs self-hosted PostgreSQL 14–17 with `plpython3u` and a superuser to run `CREATE EXTENSION`. It does not run on Supabase, Neon, RDS/Aurora or other managed hosts that withhold superuser or untrusted Python. See [docs](https://github.com/realZachi/pg-jev/blob/e3450d44f7f6745aa2d728c9289b9ca4a6feda9a/.agents/skills/pgjev/SKILL.md#install) for details.
+
+To run Postgres with `pgjev` locally for testing or demos, see [`pytests/postgres/README.md`](pytests/postgres/README.md).
 
 ### Snowflake
 
