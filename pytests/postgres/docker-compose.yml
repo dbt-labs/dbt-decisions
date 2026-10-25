@@ -1,0 +1,47 @@
+# Postgres + pgjev + mock decision server
+#   docker compose -p dbt_decisions_it -f pytests/postgres/docker-compose.yml up -d --wait --build
+#   docker compose -p dbt_decisions_it -f pytests/postgres/docker-compose.yml down -v
+# Everything is scoped by the project name `dbt_decisions_it`; never run `down -v` with another one.
+# Authentication: password, with a NON-SECRET placeholder default. Ports bind to 127.0.0.1 only.
+name: dbt_decisions_it
+
+services:
+  postgres:
+    container_name: dbt-decisions-postgres
+    build:
+      context: .
+      args:
+        PG_MAJOR: "16"
+        PGJEV_REF: e3450d44f7f6745aa2d728c9289b9ca4a6feda9a   # keep equal to PINNED_PGJEV
+    environment:
+      POSTGRES_DB: dbt
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DECISIONS_PGPASSWORD:-decisions-it-placeholder}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d:ro
+    depends_on:
+      mock:
+        condition: service_healthy
+    healthcheck:
+      # The init scripts run on a temporary server first; psql over TCP only succeeds on the final one.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d dbt && psql -h 127.0.0.1 -U postgres -d dbt -tAc \"select 1 from pg_extension where extname = 'jev'\" | grep -q 1"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+
+  mock:
+    container_name: dbt-decisions-mock
+    image: python:3.12-slim
+    command: ["python", "/app/server.py", "--host", "0.0.0.0", "--port", "8765", "--log", "/logs/mock_requests.jsonl"]
+    ports:
+      - "127.0.0.1:8765:8765"
+    volumes:
+      - ../mock_system_one_server:/app:ro
+      - ../../.tmp:/logs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8765), 2).close()"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
