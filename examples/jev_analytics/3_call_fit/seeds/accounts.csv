@@ -1,0 +1,11 @@
+account_id,account_name,segment
+acct-01,Example Account 01 (synthetic),enterprise
+acct-02,Example Account 02 (synthetic),mid-market
+acct-03,Example Account 03 (synthetic),smb
+acct-04,Example Account 04 (synthetic),enterprise
+acct-05,Example Account 05 (synthetic),mid-market
+acct-06,Example Account 06 (synthetic),smb
+acct-07,Example Account 07 (synthetic),enterprise
+acct-08,Example Account 08 (synthetic),mid-market
+acct-09,Example Account 09 (synthetic),smb
+acct-10,Example Account 10 (synthetic),enterprise

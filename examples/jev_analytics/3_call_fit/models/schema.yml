@@ -1,0 +1,13 @@
+seeds:
+  - name: sales_calls
+    description: SYNTHETIC call snippets with hand-assigned expected_fit. Not real customers.
+    columns:
+    - name: expected_fit
+  - name: accounts
+    description: SYNTHETIC accounts.
+
+models:
+  - name: call_fit_probability
+    columns:
+    - name: call_id
+    - name: fit_probability

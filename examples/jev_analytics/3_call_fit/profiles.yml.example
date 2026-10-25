@@ -1,0 +1,35 @@
+jev_call_fit:
+  target: duckdb
+  outputs:
+    duckdb:
+      type: duckdb
+      path: jev_call_fit.duckdb
+    postgres:
+      type: postgres
+      host: localhost
+      port: 5433
+      user: postgres
+      password: "{{ env_var('PGPASSWORD', 'decisions-it-placeholder') }}"
+      dbname: dbt
+      schema: jev_call_fit
+    databricks:
+      type: databricks
+      host: "{{ env_var('DBT_DATABRICKS_HOST_NAME') }}"
+      http_path: "{{ env_var('DBT_DATABRICKS_HTTP_PATH') }}"
+      token: "{{ env_var('DBT_DATABRICKS_TOKEN') }}"
+      schema: "{{ env_var('DATABRICKS_USER_SCHEMA') }}_jev_call_fit"
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_DEV_ACCOUNT') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_DEV_WAREHOUSE') }}"
+      role: "{{ env_var('SNOWFLAKE_DEV_ROLE') }}"
+      database: "{{ env_var('SNOWFLAKE_DEV_DATABASE') }}"
+      schema: "{{ env_var('SNOWFLAKE_DEV_SCHEMA') }}_jev_call_fit"
+      user: "{{ env_var('SNOWFLAKE_DEV_USER') }}"
+      authenticator: externalbrowser
+    bigquery:
+      type: bigquery
+      method: oauth
+      project: "{{ env_var('DBT_BIGQUERY_PROJECT') }}"
+      dataset: jev_call_fit
+      location: US
