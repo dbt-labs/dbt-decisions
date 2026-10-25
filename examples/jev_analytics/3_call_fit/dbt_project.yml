@@ -1,0 +1,28 @@
+name: jev_call_fit
+profile: jev_call_fit
+
+vars:
+  fit_threshold: 0.8
+  # Snowflake only: where the TypeSafe key secret and the external access integration live (override with your own).
+  dbt_decisions_secret: "{{ env_var('SNOWFLAKE_DEV_DATABASE', '') }}.{{ env_var('SNOWFLAKE_DEV_SCHEMA', '') }}.jev_api_key"
+  dbt_decisions_network_rule: jev_egress
+  dbt_decisions_integration: DBT_DECISIONS_IT_JEV_ACCESS
+
+# Snowflake only: lets the package attach the secret and integration to its UDF.
+dispatch:
+  - macro_namespace: dbt
+    search_order: ['dbt_decisions', 'dbt']
+
+# Install agent skills for dbt Wizard CLI.
+flags:
+  ai_provider: wizard
+
+# Snowflake only.
+functions:
+  dbt_decisions:
+    snowflake:
+      +enabled: "{{ target.type == 'snowflake' }}"
+
+models:
+  jev_call_fit:
+    +materialized: table

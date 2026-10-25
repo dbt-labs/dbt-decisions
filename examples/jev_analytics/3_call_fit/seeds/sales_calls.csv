@@ -1,0 +1,31 @@
+call_id,account_id,transcript,expected_fit
+call-01,acct-01,Customer says they get thousands of support chats a week and nobody can read them all; they want to see themes across every conversation.,true
+call-16,acct-06,Customer asked about changing the billing contact on their account; no other topics came up.,false
+call-02,acct-02,Their team records about 400 sales calls a month and has no way to find which ones mention competitors; they want to analyze them at scale.,true
+call-17,acct-07,Short check-in call: they confirmed the renewal date and asked for a copy of the invoice.,false
+call-03,acct-03,"Buyer describes 20,000 monthly tickets in their helpdesk and asks how to classify the reasons for contact automatically.",true
+call-18,acct-08,Prospect only wanted to know whether we support single sign-on for their five-person team.,false
+call-04,acct-04,"They want to mine call recordings from the whole contact center to spot churn signals, currently a manager samples five calls a week.",true
+call-19,acct-09,They asked for a discount on the annual plan and said they would decide by the end of the month.,false
+call-05,acct-05,Customer wants to tag every inbound chat by topic and sentiment so product can see trends; manual review is not keeping up.,true
+call-20,acct-10,"Customer reported a login error, we walked through a password reset and it was resolved on the call.",false
+call-06,acct-06,The prospect explains they have a backlog of years of customer interviews and want to query them for common complaints.,true
+call-21,acct-01,Buyer is evaluating a spreadsheet template for budgeting and wanted to know about export to CSV.,false
+call-07,acct-07,They get a flood of NPS comments and ticket text and would like a way to turn it into counts by category.,true
+call-22,acct-02,The call was mainly introductions; they mentioned they have a very small team and no conversation data to speak of.,false
+call-08,acct-08,Customer asks whether the product can go through all of their recorded support calls and flag the ones about billing errors.,true
+call-23,acct-03,Prospect asked about office hours for our support team and the time zones we cover.,false
+call-09,acct-09,Their analysts read tickets by hand each Friday; they want something that reads them all and summarizes the drivers.,true
+call-24,acct-04,They wanted to schedule a training session for two new hires next week.,false
+call-10,acct-10,Prospect has ten thousand chat transcripts per day and needs to know how many mention the new pricing page.,true
+call-25,acct-05,Customer asked how to rename a workspace and whether that affects existing links.,false
+call-11,acct-01,"They want to review every renewal call for risk language, not just the ones the manager happens to listen to.",true
+call-26,acct-06,Discussion about the upcoming conference; they wanted a booth location near the entrance.,false
+call-12,acct-02,Customer describes survey free-text plus call notes across regions and wants to analyze patterns across all of it.,true
+call-27,acct-07,Prospect asked for a reference customer in the logistics industry and nothing else.,false
+call-13,acct-03,The team wants to automatically sort incoming tickets into themes and track them week over week at scale.,true
+call-28,acct-08,They requested an updated W-9 and a certificate of insurance for their procurement team.,false
+call-14,acct-04,Buyer says they cannot scale their quality review of agent conversations beyond one percent of volume.,true
+call-29,acct-09,Customer wanted to know the release date of the mobile app update; no analytics needs mentioned.,false
+call-15,acct-05,"Prospect wants to find which of their many onboarding calls mention missing integrations, across the whole archive.",true
+call-30,acct-10,Quick call to fix a typo in the contract; both sides agreed and hung up.,false

@@ -1,0 +1,6 @@
+jev_call_fit:
+  target: duckdb
+  outputs:
+    duckdb:
+      type: duckdb
+      path: jev_call_fit.duckdb

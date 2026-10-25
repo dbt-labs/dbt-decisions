@@ -1,0 +1,6 @@
+!profiles.yml
+package-lock.yml
+.agents/
+.claude/
+dbt_internal_packages/
+dbt_packages/
