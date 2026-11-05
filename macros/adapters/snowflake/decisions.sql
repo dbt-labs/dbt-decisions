@@ -38,7 +38,7 @@
   {% set entries = [] %}
   {% if passthrough == '*' %}{% do cols.append('__dd_t.* exclude (__dd_decision)') %}{% else %}{% for c in passthrough %}{% do cols.append('__dd_t.' ~ c) %}{% endfor %}{% endif %}
   {% for name, spec in questions.items() %}
-    {% if spec['type'] == 'probability' %}
+    {% if spec['type'] == 'noul' %}
       {% do entries.append(dbt_decisions.decisions_question_entry(name, 'noul', spec['question'])) %}
       {% do cols.append(dbt_decisions.snowflake__bundle_get(name, 'noul', 'float') ~ ' as ' ~ name) %}
     {% elif spec['type'] == 'choice' %}

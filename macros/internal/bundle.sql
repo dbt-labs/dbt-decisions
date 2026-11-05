@@ -1,5 +1,5 @@
 {% macro decisions_bundle_allowed_keys(type) %}
-  {% if type == 'probability' %}{{ return(['type', 'question']) }}{% endif %}
+  {% if type == 'noul' %}{{ return(['type', 'question']) }}{% endif %}
   {% if type == 'choice' %}{{ return(['type', 'question', 'choices', 'confidence']) }}{% endif %}
   {{ return(['type', 'question', 'criteria', 'confidence']) }}
 {% endmacro %}
@@ -65,8 +65,8 @@
       {{ dbt_decisions.decisions_fail(mn, 'questions', "question '" ~ name ~ "' must be a mapping") }}
     {% endif %}
     {% set t = spec.get('type') %}
-    {% if t not in ['probability', 'choice', 'score'] %}
-      {{ dbt_decisions.decisions_fail(mn, 'questions', "question '" ~ name ~ "': type must be probability, choice or score, got " ~ t) }}
+    {% if t not in ['noul', 'choice', 'score'] %}
+      {{ dbt_decisions.decisions_fail(mn, 'questions', "question '" ~ name ~ "': type must be noul, choice or score, got " ~ t) }}
     {% endif %}
     {% set allowed = dbt_decisions.decisions_bundle_allowed_keys(t) %}
     {% for k in spec.keys() %}
@@ -84,7 +84,7 @@
     {% if conf is not boolean %}
       {{ dbt_decisions.decisions_fail(mn, 'questions', "question '" ~ name ~ "': confidence must be true or false") }}
     {% endif %}
-    {% if conf and t == 'probability' %}
+    {% if conf and t == 'noul' %}
       {{ dbt_decisions.decisions_fail(mn, 'questions', "question '" ~ name ~ "': confidence is only available for choice and score questions (a probability is already the answer)") }}
     {% endif %}
     {% for out in ([name] + ([name ~ '_confidence'] if conf else [])) %}
@@ -109,7 +109,7 @@
   {% set cols = [] %}
   {% if passthrough == '*' %}{% do cols.append('__dd_t.*') %}{% else %}{% for c in passthrough %}{% do cols.append('__dd_t.' ~ c) %}{% endfor %}{% endif %}
   {% for name, spec in questions.items() %}
-    {% if spec['type'] == 'probability' %}
+    {% if spec['type'] == 'noul' %}
       {% do cols.append(dbt_decisions.decision_noul('__dd_s.__dd_state', spec['question']) ~ ' as ' ~ name) %}
     {% elif spec['type'] == 'choice' %}
       {% set norm = dbt_decisions.decisions_normalize_choices(spec['choices']) %}
