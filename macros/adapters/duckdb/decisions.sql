@@ -1,4 +1,4 @@
-{% macro duckdb__decision_probability(state, question) %}
+{% macro duckdb__decision_noul(state, question) %}
   {{ return('jev_prob(' ~ state ~ ', ' ~ dbt_decisions.decisions_string_literal(question) ~ ')') }}
 {% endmacro %}
 

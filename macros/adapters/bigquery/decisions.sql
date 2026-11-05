@@ -17,7 +17,7 @@
   {{ return('cast(json_value(' ~ dbt_decisions.bigquery__ask_call(state, question_json) ~ ", '$.answers.decision." ~ path ~ "') as " ~ as_type ~ ')') }}
 {% endmacro %}
 
-{% macro bigquery__decision_probability(state, question) %}
+{% macro bigquery__decision_noul(state, question) %}
   {{ return(dbt_decisions.bigquery__ask_get(state, dbt_decisions.bigquery__question_json('noul', question), 'noul', 'float64')) }}
 {% endmacro %}
 

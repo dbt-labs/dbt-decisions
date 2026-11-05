@@ -2,12 +2,12 @@
 
 All macros take `state`: a SQL expression (usually a column) holding the text to judge. `question`, `choices` and `criteria` are compile-time constants, not columns. Every macro returns NULL when there is no decision. The scalar macros return a SQL expression, not a named column: add your own `as <name>` (the examples do). `decision_bundle` returns a whole SELECT and chooses its column names (see its section). Arguments are validated at compile time; errors name the macro and argument.
 
-## decision_probability
+## decision_noul
 
 Probability (0 to 1) that a condition is true for the text. Ask one condition per question.
 
 ```jinja
-{{ dbt_decisions.decision_probability(
+{{ dbt_decisions.decision_noul(
     state="body",
     question="Is this customer likely to churn?"
 ) }} as churn_probability

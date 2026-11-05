@@ -110,7 +110,7 @@
   {% if passthrough == '*' %}{% do cols.append('__dd_t.*') %}{% else %}{% for c in passthrough %}{% do cols.append('__dd_t.' ~ c) %}{% endfor %}{% endif %}
   {% for name, spec in questions.items() %}
     {% if spec['type'] == 'probability' %}
-      {% do cols.append(dbt_decisions.decision_probability('__dd_s.__dd_state', spec['question']) ~ ' as ' ~ name) %}
+      {% do cols.append(dbt_decisions.decision_noul('__dd_s.__dd_state', spec['question']) ~ ' as ' ~ name) %}
     {% elif spec['type'] == 'choice' %}
       {% set norm = dbt_decisions.decisions_normalize_choices(spec['choices']) %}
       {% do cols.append(dbt_decisions.decision_choice('__dd_s.__dd_state', spec['question'], norm) ~ ' as ' ~ name) %}

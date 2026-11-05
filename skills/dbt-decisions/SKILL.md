@@ -1,6 +1,6 @@
 ---
 name: dbt-decisions
-description: "Use when adding semantic judgments to dbt models (is this text about X, which category is it, how urgent is it, how sure is the model) with the dbt_decisions package: decision_probability, decision_choice, decision_score, and decision_bundle (with optional confidence)."
+description: "Use when adding semantic judgments to dbt models (is this text about X, which category is it, how urgent is it, how sure is the model) with the dbt_decisions package: decision_noul, decision_choice, decision_score, and decision_bundle (with optional confidence)."
 ---
 
 # Using dbt_decisions
@@ -9,13 +9,13 @@ Syntax: `references/api.md`. Read it before writing models.
 Warehouse caveats and cost: read `references/backends/<adapter>.md` for your target (`target.type`). No file for it, or unsure? Run `dbt run-operation dbt_decisions.doctor`; it says whether the adapter is supported and what is missing.
 
 ## Choose the macro
-- True or false? `decision_probability` (one condition per question).
+- True or false? `decision_noul` (one condition per question).
 - One label from a fixed set? `decision_choice`.
 - Degree on an ordered scale? `decision_score` with a `criteria` list of level descriptions (result is zero-based).
 
 Common shapes in analytics:
 - Classification (intent, topic, risk type): `decision_choice`.
-- Detection (spam, fraud, urgency, sensitive data) and verification (policy violation, unsupported claim): `decision_probability`.
+- Detection (spam, fraud, urgency, sensitive data) and verification (policy violation, unsupported claim): `decision_noul`.
 - Scoring (severity, quality, frustration) and ranking (sort by the score): `decision_score`.
 - Routing: `decision_choice`, then a plain SQL `case` on the label.
 - ML features (purchase intent, churn signals): one decision column per signal, usually in a `decision_bundle`.

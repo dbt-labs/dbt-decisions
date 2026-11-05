@@ -6,7 +6,7 @@
   {{ return(function('dbt_decisions', 'decisions_ask') ~ "(to_variant(" ~ state ~ "), parse_json(" ~ dbt_decisions.decisions_string_literal(question_json) ~ ")):answers:decision:" ~ path ~ "::" ~ as_type) }}
 {% endmacro %}
 
-{% macro snowflake__decision_probability(state, question) %}
+{% macro snowflake__decision_noul(state, question) %}
   {{ return(dbt_decisions.snowflake__ask_get(state, dbt_decisions.snowflake__question_json('noul', question), 'noul', 'float')) }}
 {% endmacro %}
 

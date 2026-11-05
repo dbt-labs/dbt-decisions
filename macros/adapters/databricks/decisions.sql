@@ -35,7 +35,7 @@
   {{ return("variant_get(ai_decide(" ~ state ~ ", " ~ dbt_decisions.decisions_string_literal(question_json) ~ "), '$.response.answers.decision." ~ path ~ "', '" ~ as_type ~ "')") }}
 {% endmacro %}
 
-{% macro databricks__decision_probability(state, question) %}
+{% macro databricks__decision_noul(state, question) %}
   {{ return(dbt_decisions.databricks__ai_decide_get(state, dbt_decisions.databricks__question_json('noul', question), 'probability', 'double')) }}
 {% endmacro %}
 

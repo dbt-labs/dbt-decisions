@@ -31,7 +31,7 @@ packages:
 ## Macros
 
 ```sql
-{{ dbt_decisions.decision_probability(
+{{ dbt_decisions.decision_noul(
     state="support_ticket",
     question="Is this customer likely to churn?"
 ) }}                                   {# float in [0, 1] #}
@@ -63,7 +63,7 @@ packages:
 ### Usage example
 
 ```sql
-select id, {{ dbt_decisions.decision_probability(state="support_ticket", question="Is this customer likely to churn?") }} as churn_probability
+select id, {{ dbt_decisions.decision_noul(state="support_ticket", question="Is this customer likely to churn?") }} as churn_probability
 from {{ ref('support_tickets') }}
 ```
 
