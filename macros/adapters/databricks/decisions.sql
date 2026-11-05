@@ -14,7 +14,7 @@
   {% set entries = [] %}
   {% if passthrough == '*' %}{% do cols.append('* except (__dd_decision)') %}{% else %}{% for c in passthrough %}{% do cols.append('__dd_t.' ~ c) %}{% endfor %}{% endif %}
   {% for name, spec in questions.items() %}
-    {% if spec['type'] == 'probability' %}
+    {% if spec['type'] == 'noul' %}
       {% do entries.append(dbt_decisions.decisions_question_entry(name, 'noul', spec['question'])) %}
       {% do cols.append(dbt_decisions.databricks__bundle_get(name, 'probability', 'double') ~ ' as ' ~ name) %}
     {% elif spec['type'] == 'choice' %}
@@ -35,7 +35,7 @@
   {{ return("variant_get(ai_decide(" ~ state ~ ", " ~ dbt_decisions.decisions_string_literal(question_json) ~ "), '$.response.answers.decision." ~ path ~ "', '" ~ as_type ~ "')") }}
 {% endmacro %}
 
-{% macro databricks__decision_probability(state, question) %}
+{% macro databricks__decision_noul(state, question) %}
   {{ return(dbt_decisions.databricks__ai_decide_get(state, dbt_decisions.databricks__question_json('noul', question), 'probability', 'double')) }}
 {% endmacro %}
 

@@ -5,7 +5,7 @@
   {{ return('case when not ((' ~ state ~ ') is null) then ' ~ call ~ ' end') }}
 {% endmacro %}
 
-{% macro postgres__decision_probability(state, question) %}
+{% macro postgres__decision_noul(state, question) %}
   {{ return(dbt_decisions.decisions_pg_null_guard(state, 'jev_prob(' ~ state ~ ', ' ~ dbt_decisions.decisions_string_literal(question) ~ ')')) }}
 {% endmacro %}
 

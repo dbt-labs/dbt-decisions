@@ -17,7 +17,7 @@
   {{ return('cast(json_value(' ~ dbt_decisions.bigquery__ask_call(state, question_json) ~ ", '$.answers.decision." ~ path ~ "') as " ~ as_type ~ ')') }}
 {% endmacro %}
 
-{% macro bigquery__decision_probability(state, question) %}
+{% macro bigquery__decision_noul(state, question) %}
   {{ return(dbt_decisions.bigquery__ask_get(state, dbt_decisions.bigquery__question_json('noul', question), 'noul', 'float64')) }}
 {% endmacro %}
 
@@ -49,7 +49,7 @@
   {% set entries = [] %}
   {% if passthrough == '*' %}{% do cols.append('__dd_t.* except (__dd_decision)') %}{% else %}{% for c in passthrough %}{% do cols.append('__dd_t.' ~ c) %}{% endfor %}{% endif %}
   {% for name, spec in questions.items() %}
-    {% if spec['type'] == 'probability' %}
+    {% if spec['type'] == 'noul' %}
       {% do entries.append(dbt_decisions.decisions_question_entry(name, 'noul', spec['question'])) %}
       {% do cols.append(dbt_decisions.bigquery__bundle_get(name, 'noul', 'float64') ~ ' as ' ~ name) %}
     {% elif spec['type'] == 'choice' %}

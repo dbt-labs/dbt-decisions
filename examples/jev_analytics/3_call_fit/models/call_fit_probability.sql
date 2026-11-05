@@ -3,7 +3,7 @@
 select
     call_id,
     account_id,
-    {{ dbt_decisions.decision_probability(
+    {{ dbt_decisions.decision_noul(
         state="transcript",
         question="Does the customer describe a need to analyze many customer conversations (calls, chats or tickets) at scale?"
     ) }} as fit_probability
