@@ -1,0 +1,16 @@
+account_id,account_name,plan,seats,arr_usd,renewal_date
+A001,Northwind Outfitters,business,120,48000,2027-01-15
+A002,Harbor Lane Dental,starter,8,3600,2026-12-01
+A003,Quillfeather Press,team,25,9600,2027-03-30
+A004,Meridian Freight,enterprise,900,210000,2027-02-28
+A005,Copperline Studios,team,30,12000,2026-12-20
+A006,Tallgrass Health,enterprise,650,180000,2027-06-30
+A007,Blue Heron Coffee,starter,5,2400,2027-04-10
+A008,Ostrava Robotics,business,90,36000,2026-11-30
+A009,Lumen Legal Group,business,140,54000,2027-01-31
+A010,Fieldnote Analytics,team,18,7200,2027-05-15
+A011,Granite Peak Schools,enterprise,1200,95000,2027-07-31
+A012,Saltwater Labs,team,36,14400,2026-12-15
+A013,Kestrel Insurance,enterprise,1100,240000,2027-03-31
+A014,Pinecrest Realty,starter,12,4800,2027-02-14
+A015,Driftwood Games,business,75,30000,2027-01-05

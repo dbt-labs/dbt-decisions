@@ -1,0 +1,60 @@
+name: dbt_decisions_integration_tests
+version: "1.0.0"
+profile: dbt_decisions_integration_tests
+require-dbt-version: [">=1.11.0", "<3.0.0"]
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+clean-targets:
+  - target
+  - dbt_packages
+
+vars:
+  # Decision columns are probabilities; this is where a ticket counts as "at risk".
+  churn_risk_threshold: 0.8
+  # Snowflake only: where the TypeSafe key secret and the external access integration live (override with your own).
+  dbt_decisions_secret: "{{ env_var('SNOWFLAKE_DEV_DATABASE', '') }}.{{ env_var('SNOWFLAKE_DEV_SCHEMA', '') }}.jev_api_key"
+  dbt_decisions_network_rule: jev_egress
+  dbt_decisions_integration: DBT_DECISIONS_IT_JEV_ACCESS
+
+# Snowflake only: lets the package attach the secret and integration to its UDF.
+dispatch:
+  - macro_namespace: dbt
+    search_order: ['dbt_decisions', 'dbt']
+
+# DuckDB only: the jev community extension is installed once per run and loaded on each model's connection
+# (https://github.com/dbt-labs/dbt/issues/16884). Both macros do nothing on other targets.
+on-run-start:
+  - "{{ install_jev() }}"
+
+# The package's functions are Snowflake-only.
+functions:
+  dbt_decisions:
+    snowflake:
+      +enabled: "{{ target.type == 'snowflake' }}"
+
+seeds:
+  dbt_decisions_integration_tests:
+    +schema: raw
+    support_tickets:
+      +column_types:
+        created_at: timestamp
+    ticket_labels:
+      +column_types:
+        label_churn_risk: boolean
+        label_urgency: integer
+
+models:
+  dbt_decisions_integration_tests:
+    +pre-hook: "{{ load_jev() }}"
+    staging:
+      +materialized: view
+    marts:
+      # Decision columns cost one API call per row per question: store them once.
+      +materialized: table
+      # dbt v2's SQL parser does not yet accept the `cross join lateral (...) as x` that decision_bundle
+      # compiles to on DuckDB and Postgres, which fails under DBT_STATIC_ANALYSIS=strict.
+      +static_analysis: "off"

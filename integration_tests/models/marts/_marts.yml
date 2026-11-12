@@ -1,0 +1,42 @@
+models:
+  - name: ticket_signals
+    description: decision_bundle over every ticket.
+    columns:
+      - name: ticket_id
+        data_tests: [unique, not_null]
+      - name: churn_risk
+        data_tests: [not_null]
+      - name: topic
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [billing, bug, feature_request, how_to, account_access, security_privacy, renewal_or_cancellation, other]
+      - name: urgency
+        data_tests: [not_null]
+
+  - name: scalar_signals
+    description: The scalar macros over every ticket, same questions as ticket_signals.
+    columns:
+      - name: ticket_id
+        data_tests: [unique, not_null]
+
+  - name: decision_edge_cases
+    description: decision_bundle over states that stress NULL handling and string escaping.
+    columns:
+      - name: case_id
+        data_tests: [unique, not_null]
+
+  - name: at_risk_accounts
+    columns:
+      - name: account_id
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_accounts')
+                field: account_id
+
+  - name: ticket_signals_eval
+    description: Decision columns against the hand labels. Only its shape is tested.

@@ -1,0 +1,10 @@
+seeds:
+  - name: support_tickets
+    description: Synthetic support tickets for Brightloop, a fictional project-management SaaS.
+  - name: accounts
+    description: Synthetic customer accounts.
+  - name: ticket_labels
+    description: >
+      Hand labels for 30 tickets (T1001-T1030), for checking decision columns before trusting them.
+      Topic is one of billing, bug, feature_request, how_to, account_access, security_privacy,
+      renewal_or_cancellation, other. Urgency is 0 (none) to 4 (critical).
