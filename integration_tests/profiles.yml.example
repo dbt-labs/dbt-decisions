@@ -19,20 +19,22 @@ dbt_decisions_integration_tests:
       type: databricks
       host: "{{ env_var('DBT_DATABRICKS_HOST_NAME') }}"
       http_path: "{{ env_var('DBT_DATABRICKS_HTTP_PATH') }}"
-      token: "{{ env_var('DBT_DATABRICKS_TOKEN') }}"
-      schema: "{{ env_var('DATABRICKS_USER_SCHEMA') }}_dbt_decisions_it"
+      # Browser login (U2M). For a token instead: `token: "{{ env_var('DBT_DATABRICKS_TOKEN') }}"`.
+      auth_type: oauth
+      catalog: "{{ env_var('DBT_DATABRICKS_CATALOG', 'main') }}"
+      schema: dbt_decisions_integration_tests
     snowflake:
       type: snowflake
       account: "{{ env_var('SNOWFLAKE_DEV_ACCOUNT') }}"
       warehouse: "{{ env_var('SNOWFLAKE_DEV_WAREHOUSE') }}"
       role: "{{ env_var('SNOWFLAKE_DEV_ROLE') }}"
       database: "{{ env_var('SNOWFLAKE_DEV_DATABASE') }}"
-      schema: "{{ env_var('SNOWFLAKE_DEV_SCHEMA') }}_dbt_decisions_it"
+      schema: dbt_decisions_integration_tests
       user: "{{ env_var('SNOWFLAKE_DEV_USER') }}"
       authenticator: externalbrowser
     bigquery:
       type: bigquery
       method: oauth
       project: "{{ env_var('DBT_BIGQUERY_PROJECT') }}"
-      dataset: dbt_decisions_it
+      dataset: dbt_decisions_integration_tests
       location: US

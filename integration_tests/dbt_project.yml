@@ -38,7 +38,6 @@ functions:
 
 seeds:
   dbt_decisions_integration_tests:
-    +schema: raw
     support_tickets:
       +column_types:
         created_at: timestamp

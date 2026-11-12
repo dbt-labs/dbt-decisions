@@ -50,7 +50,9 @@ or use a Databricks workspace with `ai_decide`. Then pick the target:
 dbt build --target <duckdb|postgres|databricks|snowflake|bigquery>
 ```
 
-Each target in `profiles.yml.example` reads its connection from environment variables. See the main README
+Each target in `profiles.yml.example` reads its connection from environment variables, and builds into a schema
+named after the project, `dbt_decisions_integration_tests` (on Databricks, in the catalog from `DBT_DATABRICKS_CATALOG`).
+Databricks needs no TypeSafe key: it uses the built-in `ai_decide`. See the main README
 for each warehouse's one-time setup.
 
 ## Notes
@@ -60,5 +62,8 @@ for each warehouse's one-time setup.
 - The marts set `+static_analysis: "off"`: dbt v2's parser does not accept the `cross join lateral (...) as x`
   that `decision_bundle` compiles to on DuckDB and Postgres.
 - dbt warns `AiProviderUnset (dbt1801)` because the package ships an agent skill. It is harmless here.
+- `scalar_matches_bundle` only asserts a match on DuckDB and Postgres, where the scalar macros and the bundle read one
+  cached answer. On Databricks, Snowflake and BigQuery the bundle is one call and each scalar macro is its own, and a
+  decision model's answers differ a little between prompts (on Databricks: churn up to 0.38 apart, 8 of 80 topics).
 - Seeds, models and tests use portable SQL (`dbt.concat`, explicit `group by`) so they build on every
   supported warehouse.
