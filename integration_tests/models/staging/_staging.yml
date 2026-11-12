@@ -1,0 +1,26 @@
+models:
+  - name: stg_support_tickets
+    description: One row per inbound support ticket (email, chat or web form).
+    columns:
+      - name: ticket_id
+        data_tests: [unique, not_null]
+      - name: account_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_accounts')
+                field: account_id
+      - name: ticket_text
+        description: Subject and body joined; the text to send to a decision model.
+
+  - name: stg_accounts
+    description: One row per customer account.
+    columns:
+      - name: account_id
+        data_tests: [unique, not_null]
+      - name: plan
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [starter, team, business, enterprise]
