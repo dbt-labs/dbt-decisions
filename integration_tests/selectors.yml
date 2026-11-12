@@ -1,7 +1,6 @@
 selectors:
-  # dbt v2 still tries to build the package's Snowflake-only functions on every adapter
-  # (https://github.com/dbt-labs/dbt/issues/16875) and config can't disable them.
-  # Default every command to skipping functions, so a plain `dbt build` works.
+  # dbt v2 still tries to build the package's Snowflake-only functions on Databricks, and they fail
+  # (https://github.com/dbt-labs/dbt/issues/16875). Default every command to skipping functions.
   - name: default
     default: true
     definition:

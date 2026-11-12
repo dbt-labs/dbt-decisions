@@ -1,5 +1,5 @@
-{# The scalar macros, with the same questions as ticket_signals (see the scalar_matches_bundle test).
-   No scalar confidence: Snowflake, BigQuery and Databricks refuse it, and this project runs on all of them. #}
+{# The scalar macros, with the same questions as ticket_signals.
+   No scalar confidence: Databricks refuses it (use decision_bundle with 'confidence': true). #}
 select
     ticket_id,
     {{ dbt_decisions.decision_noul(

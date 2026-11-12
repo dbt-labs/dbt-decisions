@@ -1,5 +1,4 @@
-{# States that stress NULL handling and string escaping. Literals go through the package's own
-   adapter-aware escaping, so the same model builds on every target. #}
+{# States that stress NULL handling and string escaping. Literals go through the package's own escaping. #}
 {% set states = [
     (1, 'plain',            'My invoice is wrong, please refund the difference.'),
     (3, 'empty',            ''),
